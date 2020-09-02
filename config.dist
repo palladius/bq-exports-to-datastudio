@@ -1,8 +1,4 @@
 
 
-config:
-    @echo You need to copy config.dist into config and edit away.
-    exit 42
-
-install: config
-    @echo TODO apply Jinja templates with config 
+PROJECT_ID='YOUR_PROJECT_ID_HERE'
+DATASET='mybillingdataset'

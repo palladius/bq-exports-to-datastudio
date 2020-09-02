@@ -1,3 +1,6 @@
+-- This queries does the BQ Audir
+-- Params:
+-- 1. <YOUR_DATASET_HERE>: Dataset in form of <project_id>.<dataset>
 
 SELECT
     timestamp AS Date,
@@ -28,7 +31,7 @@ SELECT
     (protopayload_auditlog.servicedata_v1_bigquery.jobCompletedEvent.job.jobStatistics.totalBilledBytes / 1000000000) / 1000 AS TotalBilledTerabytes,
     ((protopayload_auditlog.servicedata_v1_bigquery.jobCompletedEvent.job.jobStatistics.totalBilledBytes / 1000000000) / 1000) * 5 AS TotalCost,
     1 AS Queries
-FROM (TABLE_QUERY([YOUR_DATASET_HERE],'table_id CONTAINS "cloudaudit_googleapis_com_data_access_"'))
+FROM (TABLE_QUERY(<%= dataset_full_path %>,'table_id CONTAINS "cloudaudit_googleapis_com_data_access_"'))
 WHERE
   protopayload_auditlog.serviceName = 'bigquery.googleapis.com'
   AND protopayload_auditlog.methodName = 'jobservice.jobcompleted'

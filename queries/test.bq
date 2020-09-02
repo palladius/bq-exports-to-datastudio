@@ -1,0 +1,10 @@
+-- just a test to substitute project_id
+<sql template='erb' >
+  -- variables from ruby (todo config file)
+  SELECT *  FROM `<%= project_id %>.<%= dataset %>` ;
+  dataset_full_path = '<%= dataset_full_path %>'
+  Project_id2       = '<%= project_id %>'
+  -- ruby creative functions
+  ENV               = <%= ENV['ENV'] %>
+  Today is <%= Time.now.strftime('%A') %>.
+</sql>
