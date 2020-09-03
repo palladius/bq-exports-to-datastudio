@@ -1,8 +1,0 @@
-#!/bin/bash
-
-# project id: string
-PROJECT_ID='<YOUR_PROJECT_ID_HERE>'
-# BigQuery dataset containing your BAID exports
-BQ_BILLING_DATASET='mybillingdataset'
-# BQ table name within that dataset
-BQ_BILLING_TABLE='gcp_billing_export_v1_00123_456789_0123AB'

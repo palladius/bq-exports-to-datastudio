@@ -1,4 +1,5 @@
 -- just a test to substitute project_id
+-- Author: <%= author %>
 <sql template='erb' >
   -- variables from ruby (todo config file)
   SELECT *  FROM `<%= project_id %>.<%= dataset %>` ;

@@ -19,7 +19,7 @@ class ErbalT < OpenStruct
 end
 
 #from string import Template
-$debug = true
+$debug = false
 #$env = 'test'
 $config = {}
 
@@ -31,7 +31,6 @@ def parse_config(file='config.yaml')
 end
 
 def parse_vars_from_config(file = 'config')
-    # TODO import
     $config = parse_config()
     mandatory_keys = %w{project_id bq_billing_table bq_billing_dataset }
     #sample_config = { 
@@ -39,10 +38,10 @@ def parse_vars_from_config(file = 'config')
     #  'dataset' => 'my-dataset',
     #}
     # TODO ensure some keys are present
-    p "Config keys so far: ", $config.keys
+    p "Config keys so far: #{$config.keys}"  if $debug
     # Creating derived values
     $config['dataset_full_path'] = $config['project_id'] + '.' + $config['bq_billing_dataset'] + '.' + $config['bq_billing_table']
-    p $config
+    p $config if $debug
     return $config
 end
 
@@ -54,11 +53,13 @@ def subtitute_file(filename, parameters=[])
     #renderer = ERB.new(f)
     #output = renderer.result(config_hash)
     output = et.render(f)
-    print "Rendered Template: #{output}" 
+    print "Rendered Template: #{output}" if $debug
+    return output
 end
 
 def process_bigquery_and_execute_from_cli()
   p "Execute subtitute_file() with config, then pipe query into 'bq' command."
+  output_query = subtitute_file("gcp-forecasts") if $env == 'prod'
 
 end
 def process_config_and_invoke_datastudio_apis_to_provision_brandnew_dashboard()
@@ -69,13 +70,15 @@ end
 def main
     args = ARGV
     first_argument = ARGV[0] rescue nil
-    print "ENV:\t#{ ENV["ENV"]}\n"
+    print "ENV:\t#{ ENV["ENV"]}\n" if $debug
     $env =  ENV["ENV"] rescue 'test'
-    print "ARGV:\t#{args}\n" 
+    print "ARGV:\t#{args}\n"  if $debug
     #$config = parse_config()
     parse_vars_from_config()
     subtitute_file("test",         %w( project_id dataset_name )) if $env == 'test'
     subtitute_file("gcp-bq-audit", %w( project_id dataset_name )) if $env == 'prod'
+    subtitute_file("gcp-forecasts") if $env == 'prod'
+
     if first_argument == 'bqcli'
       process_bigquery_and_execute_from_cli()
     elsif first_argument == 'bqcli'

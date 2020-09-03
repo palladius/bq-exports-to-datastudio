@@ -4,7 +4,7 @@
 -- GCP Forecasts
 -- Author: Mike Zinni
 -- SQL Dialect: TODO(ricc)
-
+-- dataset_full_path (for curiosity): <%= dataset_full_path %>
 SELECT
     month,
     balance,

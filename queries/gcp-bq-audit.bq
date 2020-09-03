@@ -1,6 +1,7 @@
 -- This queries does the BQ Audit
 -- Author: Mike Zinni
--- SQL Dialect: TODO(ricc)
+-- SQL Dialect: TODO(ricc) to infer first time he runs it
+-- dataset_full_path (for curiosity): <%= dataset_full_path %>
 -- Params:
 -- 1. <YOUR_DATASET_HERE>: Dataset in form of <project_id>.<dataset>
 SELECT

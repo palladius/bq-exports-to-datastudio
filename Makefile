@@ -3,11 +3,11 @@
 help:
 	cat Makefile | egrep -v '^$$'
 
-config:
-	@echo You need to copy config.dist into config and edit away.
+config.yaml:
+	@echo You need to copy config.yaml.dist into config.yaml and edit away.
 	exit 42
 
-config-with-comment: config
+config-with-comment: config.yaml
 	@echo Config is ok. Good.
 
 

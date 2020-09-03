@@ -1,8 +1,17 @@
 # Configuration
+
+#default
 bq-export-config:
   # project id: string (numeric version might also work - TB tested yet)
   project_id: '<YOUR_PROJECT_ID_HERE>'
   # BigQuery dataset containing your BAID exports
   bq_billing_dataset: 'mybillingdataset'
   # BQ table name within that dataset
+  bq_billing_table: 'my_gcp_billing_export_v1_00123_456789_0123AB'
+
+
+# For future implementaion
+my-second-project:
+  project_id: my-second-project
+  bq_billing_dataset: anotherdataset'
   bq_billing_table: 'my_gcp_billing_export_v1_00123_456789_0123AB'
