@@ -1,7 +1,8 @@
--- This queries does the BQ Audir
+-- This queries does the BQ Audit
+-- Author: Mike Zinni
+-- SQL Dialect: TODO(ricc)
 -- Params:
 -- 1. <YOUR_DATASET_HERE>: Dataset in form of <project_id>.<dataset>
-
 SELECT
     timestamp AS Date,
     resource.labels.project_id AS ProjectId,
