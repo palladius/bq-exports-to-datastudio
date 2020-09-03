@@ -2,8 +2,9 @@
 
 #import re
 require 'erb'
-require 'erb'
 require 'ostruct'
+require 'yaml'
+
 
 #(collection, *args)
 def println(*args)
@@ -20,20 +21,33 @@ end
 #from string import Template
 $debug = true
 #$env = 'test'
+$config = {}
 
+def parse_config(file='config.yaml')
+  all_config = YAML.load_file('config.yaml')
+  cfg = all_config['bq-export-config'] rescue { 'error' => $! }
+  puts cfg.inspect
+  return cfg #.inspect
+end
 
 def parse_vars_from_config(file = 'config')
     # TODO import
-    config = { 
-      'project_id' => 'my-project' ,
-      'dataset' => 'my-dataset',
-    }
-    config['dataset_full_path'] = config['project_id'] + '.' + config['dataset']
-    return config
+    $config = parse_config()
+    mandatory_keys = %w{project_id bq_billing_table bq_billing_dataset }
+    #sample_config = { 
+    #  'project_id' => 'my-project' ,
+    #  'dataset' => 'my-dataset',
+    #}
+    # TODO ensure some keys are present
+    p "Config keys so far: ", $config.keys
+    # Creating derived values
+    $config['dataset_full_path'] = $config['project_id'] + '.' + $config['bq_billing_dataset'] + '.' + $config['bq_billing_table']
+    p $config
+    return $config
 end
 
 def subtitute_file(filename, parameters=[])
-    config_hash = parse_vars_from_config()
+    config_hash = $config # parse_vars_from_config()
     et = ErbalT.new(config_hash)
     f = File.read("queries/#{filename}.bq")
     print "Original file: #{f}" if $debug
@@ -58,6 +72,8 @@ def main
     print "ENV:\t#{ ENV["ENV"]}\n"
     $env =  ENV["ENV"] rescue 'test'
     print "ARGV:\t#{args}\n" 
+    #$config = parse_config()
+    parse_vars_from_config()
     subtitute_file("test",         %w( project_id dataset_name )) if $env == 'test'
     subtitute_file("gcp-bq-audit", %w( project_id dataset_name )) if $env == 'prod'
     if first_argument == 'bqcli'
