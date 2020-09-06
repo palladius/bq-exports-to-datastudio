@@ -1,0 +1,18 @@
+SELECT
+  invoice.month,
+  service.description,
+  ROUND(SUM(cost) + SUM(IFNULL((
+        SELECT
+          SUM(c.amount)
+        FROM
+          UNNEST(credits) c),
+        0))) AS cost_after_credits
+FROM
+  `data-analytics-pocs:public.gcp_billing_export_EXAMPL_E0XD3A_DB33F1`
+WHERE
+  invoice.month = "201906"
+GROUP BY
+  1,
+  2
+ORDER BY
+  3 DESC;

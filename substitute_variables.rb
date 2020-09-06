@@ -5,6 +5,11 @@ require 'erb'
 require 'ostruct'
 require 'yaml'
 
+#from string import Template
+$debug = true
+$env = nil
+$config = {}
+$config_name = nil
 
 #(collection, *args)
 def println(*args)
@@ -18,14 +23,10 @@ class ErbalT < OpenStruct
   end
 end
 
-#from string import Template
-$debug = false
-#$env = 'test'
-$config = {}
 
 def parse_config(file='config.yaml')
   all_config = YAML.load_file('config.yaml')
-  cfg = all_config['bq-export-config'] rescue { 'error' => $! }
+  cfg = all_config[$config_name] rescue { 'error' => $! }
   puts cfg.inspect
   return cfg #.inspect
 end
@@ -73,6 +74,9 @@ def main
     print "ENV:\t#{ ENV["ENV"]}\n" if $debug
     $env =  ENV["ENV"] rescue 'test'
     print "ARGV:\t#{args}\n"  if $debug
+    $config_name = ENV["CONFIG_NAME"] 
+    $config_name = 'bq-export-config' if $config_name.nil?
+    print "CONFIG_NAME:\t'#{ $config_name }'\n" # first implement it :) if $debug
     #$config = parse_config()
     parse_vars_from_config()
     subtitute_file("test",         %w( project_id dataset_name )) if $env == 'test'

@@ -21,5 +21,8 @@ run-bq-cli:
 	@echo Executing BQ queries from CLI to make sure your config is correct.
 	ENV=prod ruby substitute_variables.rb bqcli
 
+run-public-data:
+	ENV=prod CONFIG_NAME=gcp-public-data ruby substitute_variables.rb bqcli
+
 test: config-with-comment
 	ENV=test ruby substitute_variables.rb

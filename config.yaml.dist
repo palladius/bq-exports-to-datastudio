@@ -15,3 +15,9 @@ my-second-project:
   project_id: my-second-project
   bq_billing_dataset: anotherdataset'
   bq_billing_table: 'my_gcp_billing_export_v1_00123_456789_0123AB'
+
+# Real stuff: See https://cloud.google.com/billing/docs/how-to/visualize-data?hl=en
+gcp-public-data:
+  project_id: data-analytics-pocs
+  bq_billing_dataset: public
+  bq_billing_table: gcp_billing_export_EXAMPL_E0XD3A_DB33F1
